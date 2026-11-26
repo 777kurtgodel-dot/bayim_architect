@@ -55,7 +55,7 @@ export const mapPoint = (link?: string | null): MapPoint | null => {
 }
 
 const formatKgPhone = (digits: string) =>
-  digits.length === 12 && digits.startsWith('996') ? `+996 ${digits.slice(3, 6)} ${digits.slice(6, 9)} ${digits.slice(9)}` : `+${digits}`
+  digits.length === 12 && digits.startsWith('996') ? `+996 (${digits.slice(3, 6)}) ${digits.slice(6, 9)}-${digits.slice(9)}` : `+${digits}`
 
 /** Telegram из настроек: ник (baiym, @baiym, t.me/baiym) или номер телефона (+996…) */
 export const telegramLink = (value?: string | null): { href: string; label: string } | null => {
