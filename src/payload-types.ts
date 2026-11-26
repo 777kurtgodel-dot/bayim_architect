@@ -1213,7 +1213,13 @@ export interface SiteSetting {
   id: number;
   companyName?: string | null;
   tagline?: string | null;
+  /**
+   * Если не загружать, на сайте остаётся текущий логотип «Байым».
+   */
   logo?: (number | null) | Media;
+  /**
+   * Белая версия для подвала сайта. Если не загружать, остаётся текущая.
+   */
   logoLight?: (number | null) | Media;
   phone?: string | null;
   /**
