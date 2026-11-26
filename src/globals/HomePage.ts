@@ -6,7 +6,7 @@ import { seoTab } from '../fields/seo'
 export const HomePage: GlobalConfig = {
   slug: 'home-page',
   label: 'Страница: Главная',
-  admin: { group: 'Контент', description: 'Тексты первого экрана, принципы и блок заявки на главной странице.' },
+  admin: { group: 'Контент', description: 'Тексты первого экрана, блок «Специалисты» и блок заявки на главной странице.' },
   access: { read: anyone, update: authenticated },
   hooks: { afterChange: [revalidateGlobal] },
   fields: [
@@ -67,19 +67,11 @@ export const HomePage: GlobalConfig = {
           ],
         },
         {
-          label: 'Принципы',
+          label: 'Специалисты',
+          description: 'На главной показываются первые четыре специалиста по порядку. Сами карточки — в разделе «Специалисты».',
           fields: [
-            { name: 'principlesTitle', label: 'Заголовок блока', type: 'text', localized: true },
-            {
-              name: 'principles',
-              label: 'Принципы / преимущества',
-              type: 'array',
-              labels: { singular: 'Принцип', plural: 'Принципы' },
-              fields: [
-                { name: 'title', label: 'Заголовок', type: 'text', required: true, localized: true },
-                { name: 'text', label: 'Текст', type: 'textarea', localized: true },
-              ],
-            },
+            { name: 'specialistsTitle', label: 'Заголовок блока', type: 'text', localized: true },
+            { name: 'specialistsText', label: 'Текст под заголовком', type: 'textarea', localized: true },
           ],
         },
         {
@@ -99,11 +91,10 @@ export const HomePage: GlobalConfig = {
               fields: [
                 { name: 'services', label: 'Услуги', type: 'checkbox', defaultValue: true },
                 { name: 'projects', label: 'Избранные проекты', type: 'checkbox', defaultValue: true },
-                { name: 'principles', label: 'Принципы', type: 'checkbox', defaultValue: true },
+                { name: 'specialists', label: 'Специалисты', type: 'checkbox', defaultValue: true },
                 { name: 'process', label: 'Этапы работы', type: 'checkbox', defaultValue: true },
                 { name: 'testimonials', label: 'Отзывы', type: 'checkbox', defaultValue: true },
                 { name: 'faq', label: 'Вопросы и ответы', type: 'checkbox', defaultValue: true },
-                { name: 'news', label: 'Новости', type: 'checkbox', defaultValue: true },
               ],
             },
           ],

@@ -106,37 +106,6 @@ export const getProjectTypes = cache(async (locale: Locale) => {
   return res.docs
 })
 
-export const getPosts = cache(async (locale: Locale, limit = 24) => {
-  const payload = await getPayloadClient()
-  const res = await payload.find({
-    collection: 'posts',
-    locale,
-    depth: 1,
-    limit,
-    sort: '-publishedAt',
-    overrideAccess: false,
-    where: { _status: { equals: 'published' } },
-    select: { title: true, slug: true, excerpt: true, cover: true, publishedAt: true },
-  })
-  return res.docs
-})
-
-export const getPost = cache(async (locale: Locale, slug: string) => {
-  const payload = await getPayloadClient()
-  const draft = await isPreview()
-  const res = await payload.find({
-    collection: 'posts',
-    locale,
-    depth: 1,
-    limit: 1,
-    draft,
-    overrideAccess: false,
-    user: draft ? await previewUser() : undefined,
-    where: { slug: { equals: slug } },
-  })
-  return res.docs[0] || null
-})
-
 export const getTeam = cache(async (locale: Locale) => {
   const payload = await getPayloadClient()
   const res = await payload.find({

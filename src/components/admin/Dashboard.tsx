@@ -110,11 +110,10 @@ export async function Dashboard({ payload, user }: Props) {
   const weekAgo = new Date(now - 7 * 864e5).toISOString()
   const monthAgo = new Date(now - 30 * 864e5).toISOString()
 
-  const [projects, services, team, posts, media] = await Promise.all([
+  const [projects, services, team, media] = await Promise.all([
     payload.count({ collection: 'projects' }),
     payload.count({ collection: 'services' }),
     payload.count({ collection: 'team' }),
-    payload.count({ collection: 'posts' }),
     payload.count({ collection: 'media' }),
   ])
 
@@ -232,9 +231,9 @@ export async function Dashboard({ payload, user }: Props) {
         <div style={{ ...card, borderLeft: '4px solid #B8965A', marginBottom: 24 }}>
           <h4 style={{ margin: '0 0 6px' }}>Сайт пока пустой</h4>
           <p style={{ margin: '0 0 14px', opacity: 0.8, maxWidth: 720 }}>
-            Можно загрузить демо-контент из брифа: 6 услуг с описаниями, этапы работы, принципы, вопросы и ответы, 5 демонстрационных
-            проектов с чертежами-заглушками, карточки команды и 3 тестовые заявки. Всё демонстрационное помечено словом «Демо» — перед
-            запуском замените это реальными материалами.
+            Можно загрузить демо-контент из брифа: 6 услуг с описаниями, этапы работы, вопросы и ответы, 5 демонстрационных проектов с
+            чертежами-заглушками, 6 демо-специалистов с фото и 3 тестовые заявки. Всё демонстрационное помечено словом «Демо» или штампом на
+            картинке — перед запуском замените это реальными материалами.
           </p>
           <SeedButton />
         </div>
@@ -244,15 +243,13 @@ export async function Dashboard({ payload, user }: Props) {
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(150px,1fr))', gap: 14, marginBottom: 18 }}>
         <Stat label="Проектов в портфолио" value={projects.totalDocs} href="/admin/collections/projects" />
         <Stat label="Услуг" value={services.totalDocs} href="/admin/collections/services" />
-        <Stat label="Сотрудников" value={team.totalDocs} href="/admin/collections/team" />
-        <Stat label="Новостей" value={posts.totalDocs} href="/admin/collections/posts" />
+        <Stat label="Специалистов" value={team.totalDocs} href="/admin/collections/team" />
         <Stat label="Файлов в медиатеке" value={media.totalDocs} href="/admin/collections/media" />
       </div>
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
         {[
           ['+ Добавить проект', '/admin/collections/projects/create'],
-          ['+ Добавить сотрудника', '/admin/collections/team/create'],
-          ['+ Написать новость', '/admin/collections/posts/create'],
+          ['+ Добавить специалиста', '/admin/collections/team/create'],
           ['Контакты и соцсети', '/admin/globals/site-settings'],
           ['Тексты главной', '/admin/globals/home-page'],
         ].map(([label, href]) => (

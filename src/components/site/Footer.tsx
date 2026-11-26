@@ -49,13 +49,13 @@ export function Footer({ locale, dict, settings, services, logoUrl }: Props) {
               <Link href={`/${locale}/about`}>{dict.nav.about}</Link>
             </li>
             <li>
+              <Link href={`/${locale}/specialists`}>{dict.nav.specialists}</Link>
+            </li>
+            <li>
               <Link href={`/${locale}/process`}>{dict.nav.process}</Link>
             </li>
             <li>
               <Link href={`/${locale}/faq`}>{dict.nav.faq}</Link>
-            </li>
-            <li>
-              <Link href={`/${locale}/news`}>{dict.nav.news}</Link>
             </li>
             <li>
               <Link href={`/${locale}/contacts`}>{dict.nav.contacts}</Link>

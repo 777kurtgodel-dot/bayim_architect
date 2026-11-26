@@ -46,6 +46,8 @@ export function Header({ locale, dict, phone, telHref, whatsappHref, logoUrl, co
     ['/faq', dict.nav.faq],
     ['/contacts', dict.nav.contacts],
   ] as const
+  // В мобильном меню места больше: «Специалисты» идут сразу после «О компании»
+  const mobileNav = [...nav.slice(0, 3), ['/specialists', dict.nav.specialists] as const, ...nav.slice(3)]
 
   const switchTo = (l: Locale) => pathname.replace(/^\/(ru|ky)(?=\/|$)/, `/${l}`)
   const isActive = (href: string) => pathname === `/${locale}${href}` || pathname.startsWith(`/${locale}${href}/`)
@@ -101,14 +103,11 @@ export function Header({ locale, dict, phone, telHref, whatsappHref, logoUrl, co
 
       <div className="mobile-menu" id="mobile-menu" hidden={!open}>
         <nav aria-label={dict.menu}>
-          {nav.map(([href, label]) => (
+          {mobileNav.map(([href, label]) => (
             <Link key={href} href={`/${locale}${href}`} onClick={() => setOpenOn(null)}>
               {label}
             </Link>
           ))}
-          <Link href={`/${locale}/news`} onClick={() => setOpenOn(null)}>
-            {dict.nav.news}
-          </Link>
         </nav>
         <div className="mobile-menu__footer">
           {phone && telHref && (

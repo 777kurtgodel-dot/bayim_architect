@@ -72,7 +72,6 @@ export interface Config {
     projects: Project;
     services: Service;
     team: Team;
-    posts: Post;
     testimonials: Testimonial;
     faq: Faq;
     'project-types': ProjectType;
@@ -90,7 +89,6 @@ export interface Config {
     projects: ProjectsSelect<false> | ProjectsSelect<true>;
     services: ServicesSelect<false> | ServicesSelect<true>;
     team: TeamSelect<false> | TeamSelect<true>;
-    posts: PostsSelect<false> | PostsSelect<true>;
     testimonials: TestimonialsSelect<false> | TestimonialsSelect<true>;
     faq: FaqSelect<false> | FaqSelect<true>;
     'project-types': ProjectTypesSelect<false> | ProjectTypesSelect<true>;
@@ -484,7 +482,7 @@ export interface ProjectType {
   createdAt: string;
 }
 /**
- * Сотрудники, которые показываются на странице «О компании».
+ * Все специалисты показываются на странице «Специалисты». Первые четыре по порядку — ещё на главной и на странице «О компании».
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "team".
@@ -493,9 +491,19 @@ export interface Team {
   id: number;
   name: string;
   position: string;
+  /**
+   * Вертикальный портрет примерно 4:5 (например, 1200×1500 пикселей), лицо в верхней трети кадра.
+   */
   photo?: (number | null) | Media;
-  bio?: string | null;
+  /**
+   * Каждый пункт с новой строки, лучше 2–4 коротких пункта. На сайте показываются списком.
+   */
+  responsibilities?: string | null;
   experience?: string | null;
+  /**
+   * Одно-два предложения. Показывается на странице «Специалисты».
+   */
+  bio?: string | null;
   /**
    * Чем меньше число, тем выше в списке
    */
@@ -503,49 +511,6 @@ export interface Team {
   visible?: boolean | null;
   updatedAt: string;
   createdAt: string;
-}
-/**
- * Новости компании, ход строительства, полезные статьи.
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "posts".
- */
-export interface Post {
-  id: number;
-  title: string;
-  excerpt?: string | null;
-  cover?: (number | null) | Media;
-  content?: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  meta?: {
-    title?: string | null;
-    description?: string | null;
-    /**
-     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
-     */
-    image?: (number | null) | Media;
-  };
-  /**
-   * Заполняется автоматически из названия. Латиница, цифры и дефисы.
-   */
-  slug?: string | null;
-  publishedAt?: string | null;
-  updatedAt: string;
-  createdAt: string;
-  _status?: ('draft' | 'published') | null;
 }
 /**
  * Публикуйте только отзывы, на которые клиент дал согласие.
@@ -628,10 +593,6 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'team';
         value: number | Team;
-      } | null)
-    | ({
-        relationTo: 'posts';
-        value: number | Post;
       } | null)
     | ({
         relationTo: 'testimonials';
@@ -868,34 +829,13 @@ export interface TeamSelect<T extends boolean = true> {
   name?: T;
   position?: T;
   photo?: T;
-  bio?: T;
+  responsibilities?: T;
   experience?: T;
+  bio?: T;
   order?: T;
   visible?: T;
   updatedAt?: T;
   createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "posts_select".
- */
-export interface PostsSelect<T extends boolean = true> {
-  title?: T;
-  excerpt?: T;
-  cover?: T;
-  content?: T;
-  meta?:
-    | T
-    | {
-        title?: T;
-        description?: T;
-        image?: T;
-      };
-  slug?: T;
-  publishedAt?: T;
-  updatedAt?: T;
-  createdAt?: T;
-  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1065,7 +1005,7 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   createdAt?: T;
 }
 /**
- * Тексты первого экрана, принципы и блок заявки на главной странице.
+ * Тексты первого экрана, блок «Специалисты» и блок заявки на главной странице.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "home-page".
@@ -1097,24 +1037,17 @@ export interface HomePage {
         id?: string | null;
       }[]
     | null;
-  principlesTitle?: string | null;
-  principles?:
-    | {
-        title: string;
-        text?: string | null;
-        id?: string | null;
-      }[]
-    | null;
+  specialistsTitle?: string | null;
+  specialistsText?: string | null;
   ctaTitle?: string | null;
   ctaText?: string | null;
   sections?: {
     services?: boolean | null;
     projects?: boolean | null;
-    principles?: boolean | null;
+    specialists?: boolean | null;
     process?: boolean | null;
     testimonials?: boolean | null;
     faq?: boolean | null;
-    news?: boolean | null;
   };
   meta?: {
     title?: string | null;
@@ -1128,7 +1061,7 @@ export interface HomePage {
   createdAt?: string | null;
 }
 /**
- * Сотрудники добавляются в разделе «Команда», принципы — на странице «Главная».
+ * Карточки специалистов добавляются в разделе «Специалисты». Здесь — тексты страницы «О компании».
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "about-page".
@@ -1160,6 +1093,9 @@ export interface AboutPage {
         id?: string | null;
       }[]
     | null;
+  /**
+   * Блок с первыми четырьмя специалистами и ссылкой на страницу «Специалисты».
+   */
   teamTitle?: string | null;
   teamText?: string | null;
   meta?: {
@@ -1331,14 +1267,8 @@ export interface HomePageSelect<T extends boolean = true> {
         label?: T;
         id?: T;
       };
-  principlesTitle?: T;
-  principles?:
-    | T
-    | {
-        title?: T;
-        text?: T;
-        id?: T;
-      };
+  specialistsTitle?: T;
+  specialistsText?: T;
   ctaTitle?: T;
   ctaText?: T;
   sections?:
@@ -1346,11 +1276,10 @@ export interface HomePageSelect<T extends boolean = true> {
     | {
         services?: T;
         projects?: T;
-        principles?: T;
+        specialists?: T;
         process?: T;
         testimonials?: T;
         faq?: T;
-        news?: T;
       };
   meta?:
     | T

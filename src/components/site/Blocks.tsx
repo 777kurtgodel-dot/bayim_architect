@@ -3,7 +3,7 @@ import React from 'react'
 import { RichText as LexicalRichText } from '@payloadcms/richtext-lexical/react'
 import type { SerializedEditorState } from '@payloadcms/richtext-lexical/lexical'
 import type { Dictionary, Locale } from '@/lib/i18n'
-import type { Faq, Post, Project, Service, Testimonial } from '@/payload-types'
+import type { Faq, Project, Service, Testimonial } from '@/payload-types'
 import { ArrowIcon, PhoneIcon, ServiceIcon, WhatsAppIcon } from './Icons'
 import { Img } from './Img'
 import { LeadForm } from './LeadForm'
@@ -173,25 +173,6 @@ export const Testimonials = ({ items }: { items: Testimonial[] }) => (
       </figure>
     ))}
   </div>
-)
-
-export const formatDate = (iso: string, locale: Locale) =>
-  new Date(iso).toLocaleDateString(locale === 'ky' ? 'ky-KG' : 'ru-RU', {
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric',
-    timeZone: 'Asia/Bishkek',
-  })
-
-export const PostCard = ({ post, locale }: { post: Pick<Post, 'id' | 'slug' | 'title' | 'excerpt' | 'cover' | 'publishedAt'>; locale: Locale }) => (
-  <Link href={`/${locale}/news/${post.slug}`} className="post-card">
-    <div className="post-card__media">
-      <Img media={post.cover} sizes="(max-width: 640px) 100vw, (max-width: 1000px) 50vw, 33vw" />
-    </div>
-    {post.publishedAt && <time dateTime={post.publishedAt}>{formatDate(post.publishedAt, locale)}</time>}
-    <h3>{post.title}</h3>
-    {post.excerpt && <p>{post.excerpt}</p>}
-  </Link>
 )
 
 export const CtaSection = ({

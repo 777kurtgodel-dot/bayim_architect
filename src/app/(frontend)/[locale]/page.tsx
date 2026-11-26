@@ -1,19 +1,11 @@
 import type { Metadata } from 'next'
 import React from 'react'
-import {
-  CtaSection,
-  FaqList,
-  PostCard,
-  ProjectCard,
-  SectionHead,
-  ServiceCard,
-  Steps,
-  Testimonials,
-} from '@/components/site/Blocks'
+import { CtaSection, FaqList, ProjectCard, SectionHead, ServiceCard, Steps, Testimonials } from '@/components/site/Blocks'
 import { WhatsAppIcon } from '@/components/site/Icons'
 import { Img } from '@/components/site/Img'
+import { SpecialistsSection } from '@/components/site/Specialists'
 import { getDictionary, type Locale } from '@/lib/i18n'
-import { getFaq, getGlobal, getPosts, getProjects, getServices, getSettings, getTestimonials } from '@/lib/payload'
+import { getFaq, getGlobal, getProjects, getServices, getSettings, getTeam, getTestimonials } from '@/lib/payload'
 import { buildMetadata, telHref, whatsappHref } from '@/lib/site'
 
 type Params = { params: Promise<{ locale: Locale }> }
@@ -34,7 +26,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 export default async function HomePage({ params }: Params) {
   const { locale } = await params
   const dict = getDictionary(locale)
-  const [settings, home, services, projects, process, testimonials, faq, posts] = await Promise.all([
+  const [settings, home, services, projects, process, testimonials, faq, team] = await Promise.all([
     getSettings(locale),
     getGlobal('home-page', locale),
     getServices(locale),
@@ -42,7 +34,7 @@ export default async function HomePage({ params }: Params) {
     getGlobal('process-page', locale),
     getTestimonials(locale),
     getFaq(locale, true),
-    getPosts(locale, 3),
+    getTeam(locale),
   ])
   const show = home.sections || {}
   const featured = projects.filter((p) => p.featured)
@@ -154,21 +146,16 @@ export default async function HomePage({ params }: Params) {
         </section>
       )}
 
-      {show.principles !== false && home.principles && home.principles.length > 0 && (
-        <section className="section section--green">
-          <div className="container">
-            <SectionHead eyebrow={dict.home.principles} title={home.principlesTitle || dict.home.principles} />
-            <div className="principles">
-              {home.principles.map((p, i) => (
-                <div key={p.id} className="principle">
-                  <span className="principle__num">{String(i + 1).padStart(2, '0')}</span>
-                  <h3>{p.title}</h3>
-                  {p.text && <p>{p.text}</p>}
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
+      {show.specialists !== false && (
+        <SpecialistsSection
+          people={team}
+          dict={dict}
+          locale={locale}
+          eyebrow={dict.nav.specialists}
+          title={home.specialistsTitle || dict.home.specialists}
+          lead={home.specialistsText}
+          tone="green"
+        />
       )}
 
       {show.process !== false && process.steps && process.steps.length > 0 && (
@@ -199,19 +186,6 @@ export default async function HomePage({ params }: Params) {
           <div className="container container--narrow">
             <SectionHead title={dict.home.faq} link={{ href: `/${locale}/faq`, label: dict.cta.allFaq }} />
             <FaqList items={faq} />
-          </div>
-        </section>
-      )}
-
-      {show.news !== false && posts.length > 0 && (
-        <section className="section section--paper">
-          <div className="container">
-            <SectionHead title={dict.home.news} link={{ href: `/${locale}/news`, label: dict.cta.allNews }} />
-            <div className="posts-grid">
-              {posts.map((p) => (
-                <PostCard key={p.id} post={p} locale={locale} />
-              ))}
-            </div>
           </div>
         </section>
       )}

@@ -13,7 +13,6 @@ import { Faq } from './collections/Faq'
 import { LeadFiles } from './collections/LeadFiles'
 import { Leads } from './collections/Leads'
 import { Media } from './collections/Media'
-import { Posts } from './collections/Posts'
 import { Projects } from './collections/Projects'
 import { ProjectTypes } from './collections/ProjectTypes'
 import { Services } from './collections/Services'
@@ -35,7 +34,6 @@ const serverURL = SERVER_URL
 const pagePath: Record<string, string> = {
   services: '/services/',
   projects: '/projects/',
-  posts: '/news/',
 }
 const globalPath: Record<string, string> = {
   'home-page': '',
@@ -116,7 +114,7 @@ export default buildConfig({
     defaultLocale: 'ru',
     fallback: true,
   },
-  collections: [Leads, LeadFiles, Projects, Services, Team, Posts, Testimonials, Faq, ProjectTypes, Media, Users],
+  collections: [Leads, LeadFiles, Projects, Services, Team, Testimonials, Faq, ProjectTypes, Media, Users],
   globals: [HomePage, AboutPage, ProcessPage, SiteSettings],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
