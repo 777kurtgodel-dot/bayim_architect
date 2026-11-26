@@ -26,8 +26,20 @@ export const SiteSettings: GlobalConfig = {
             {
               type: 'row',
               fields: [
-                { name: 'logo', label: 'Логотип (для светлого фона)', type: 'upload', relationTo: 'media' },
-                { name: 'logoLight', label: 'Логотип (для тёмного фона)', type: 'upload', relationTo: 'media' },
+                {
+                  name: 'logo',
+                  label: 'Логотип (для светлого фона)',
+                  type: 'upload',
+                  relationTo: 'media',
+                  admin: { description: 'Если не загружать, на сайте остаётся текущий логотип «Байым».' },
+                },
+                {
+                  name: 'logoLight',
+                  label: 'Логотип (для тёмного фона)',
+                  type: 'upload',
+                  relationTo: 'media',
+                  admin: { description: 'Белая версия для подвала сайта. Если не загружать, остаётся текущая.' },
+                },
               ],
             },
             {

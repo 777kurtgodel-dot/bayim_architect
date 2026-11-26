@@ -72,7 +72,7 @@ export const Leads: CollectionConfig = {
   admin: {
     useAsTitle: 'name',
     group: 'Заявки',
-    defaultColumns: ['createdAt', 'name', 'phone', 'service', 'status', 'assignee'],
+    defaultColumns: ['createdAt', 'name', 'phone', 'service', 'status', 'region'],
     listSearchableFields: ['name', 'phone', 'email', 'message', 'region'],
     description: 'Обращения с сайта. Меняйте статус по мере работы — на главной странице админки видна воронка.',
     components: {

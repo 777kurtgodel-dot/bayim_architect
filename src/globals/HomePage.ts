@@ -36,6 +36,7 @@ export const HomePage: GlobalConfig = {
                   name: 'badges',
                   label: 'Короткие факты под заголовком',
                   type: 'array',
+                  labels: { singular: 'Факт', plural: 'Факты' },
                   maxRows: 4,
                   fields: [{ name: 'text', label: 'Текст', type: 'text', required: true, localized: true }],
                 },
@@ -50,6 +51,7 @@ export const HomePage: GlobalConfig = {
               name: 'stats',
               label: 'Цифры о компании',
               type: 'array',
+              labels: { singular: 'Цифра', plural: 'Цифры' },
               maxRows: 4,
               admin: { description: 'Указывайте только подтверждённые факты. Если блок пуст, он скрывается.' },
               fields: [
@@ -72,6 +74,7 @@ export const HomePage: GlobalConfig = {
               name: 'principles',
               label: 'Принципы / преимущества',
               type: 'array',
+              labels: { singular: 'Принцип', plural: 'Принципы' },
               fields: [
                 { name: 'title', label: 'Заголовок', type: 'text', required: true, localized: true },
                 { name: 'text', label: 'Текст', type: 'textarea', localized: true },

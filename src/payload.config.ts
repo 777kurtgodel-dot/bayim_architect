@@ -101,7 +101,12 @@ export default buildConfig({
     dateFormat: 'dd.MM.yyyy HH:mm',
   },
   // Интерфейс админки — на русском
-  i18n: { supportedLanguages: { ru }, fallbackLanguage: 'ru' },
+  i18n: {
+    supportedLanguages: { ru },
+    fallbackLanguage: 'ru',
+    // В списках админки галочки показываются словами: «да/нет» вместо стандартных «правда/ложь»
+    translations: { ru: { general: { true: 'Да', false: 'Нет' } } },
+  },
   // Языки контента сайта
   localization: {
     locales: [
