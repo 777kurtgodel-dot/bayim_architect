@@ -1,0 +1,25 @@
+# зависимости
+/node_modules
+
+# сборка
+/.next/
+/out/
+/build
+next-env.d.ts
+*.tsbuildinfo
+
+# загруженные файлы и резервные копии (живут на сервере, не в git)
+/media
+/private
+/backups
+
+# секреты
+.env
+.env*.local
+
+# прочее
+.DS_Store
+*.pem
+npm-debug.log*
+/.idea/*
+.vercel
